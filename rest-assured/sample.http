@@ -1,0 +1,31 @@
+GET http://localhost:8080/contacts
+
+###
+
+GET http://localhost:8080/contacts/1
+
+###
+
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "name": "Leonardo Ferreira",
+  "email": "mail@leonardoferreira.com.br"
+}
+
+###
+
+PUT http://localhost:8080/contacts/1
+Content-Type: application/json
+
+{
+  "name": "Leonardo",
+  "email": "zymazuka@gmail.com"
+}
+
+###
+
+DELETE http://localhost:8080/contacts/1
+
+###
