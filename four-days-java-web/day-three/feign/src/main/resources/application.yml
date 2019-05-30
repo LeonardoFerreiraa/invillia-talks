@@ -1,0 +1,5 @@
+client:
+  http-bin:
+    url: https://httpbin.org/
+  jsonplaceholder:
+    url: https://jsonplaceholder.typicode.com/
