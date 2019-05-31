@@ -1,0 +1,31 @@
+GET http://localhost:2612/contacts
+
+###
+
+POST http://localhost:2612/contacts
+Content-Type: application/json
+
+{
+  "name": "Luizão",
+  "email": "luiz@mineiro.com"
+}
+
+###
+
+GET http://localhost:2612/contacts/22
+
+###
+
+PUT http://localhost:2612/contacts/22
+Content-Type: application/json
+
+{
+  "name": "Luiza1",
+  "email": "luiz@mineiro.com"
+}
+
+###
+
+DELETE http://localhost:2612/contacts/22
+
+###
