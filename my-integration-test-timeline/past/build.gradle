@@ -1,0 +1,40 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'br.com.leonardoferreira'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '12'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	compileOnly 'org.mapstruct:mapstruct:1.3.0.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.0.Final'
+
+
+	testImplementation "com.h2database:h2"
+	testImplementation "info.cukes:cucumber-java:1.2.5"
+	testImplementation "info.cukes:cucumber-junit:1.2.5"
+	testImplementation "info.cukes:cucumber-spring:1.2.5"
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

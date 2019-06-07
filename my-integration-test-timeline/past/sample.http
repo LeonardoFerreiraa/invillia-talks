@@ -1,0 +1,14 @@
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": ""
+}
+
+
+###
+
+GET http://localhost:8080/contacts/1
+
+###
