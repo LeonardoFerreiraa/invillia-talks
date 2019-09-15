@@ -21,6 +21,7 @@ repositories {
 }
 
 ext["junit-jupiter.version"] = "5.5.1"
+ext["rest-assured.version"] = "4.1.1"
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
@@ -35,7 +36,7 @@ dependencies {
     implementation "org.apache.avro:avro:1.9.1"
     implementation "io.confluent:kafka-avro-serializer:5.2.2"
 
-
+    testImplementation "io.rest-assured:rest-assured"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation("org.springframework.cloud:spring-cloud-stream-test-support") {
         exclude group: "junit"
