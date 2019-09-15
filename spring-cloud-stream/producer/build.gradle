@@ -37,10 +37,10 @@ dependencies {
     implementation "io.confluent:kafka-avro-serializer:5.2.2"
 
     testImplementation "io.rest-assured:rest-assured"
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation("org.springframework.cloud:spring-cloud-stream-test-support") {
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "junit"
     }
+    testImplementation "org.springframework.cloud:spring-cloud-stream-test-support"
     testImplementation "org.junit.jupiter:junit-jupiter"
 }
 

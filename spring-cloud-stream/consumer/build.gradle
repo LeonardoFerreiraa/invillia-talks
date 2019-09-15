@@ -36,11 +36,10 @@ dependencies {
     implementation "org.apache.avro:avro:1.9.1"
     implementation "io.confluent:kafka-avro-serializer:5.2.2"
 
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation("org.springframework.cloud:spring-cloud-stream-test-support") {
-        exclude group: "junit"
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "org.junit"
     }
-    testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation("org.springframework.cloud:spring-cloud-stream-test-support")
 }
 
 test {
