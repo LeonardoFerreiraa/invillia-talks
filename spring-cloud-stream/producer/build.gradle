@@ -23,6 +23,7 @@ repositories {
 ext["junit-jupiter.version"] = "5.5.1"
 
 dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.cloud:spring-cloud-stream"
     implementation "org.springframework.cloud:spring-cloud-stream-binder-kafka"
 
