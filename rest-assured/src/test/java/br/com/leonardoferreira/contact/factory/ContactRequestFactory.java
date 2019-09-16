@@ -1,17 +1,18 @@
 package br.com.leonardoferreira.contact.factory;
 
-import br.com.leonardoferreira.contact.domain.Contact;
 import br.com.leonardoferreira.contact.domain.request.ContactRequest;
 import br.com.leonardoferreira.jbacon.JBacon;
 import com.github.javafaker.Faker;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ContactRequestFactory extends JBacon<ContactRequest> {
 
-    @Autowired
-    private Faker faker;
+    private final Faker faker;
+
+    public ContactRequestFactory(final Faker faker) {
+        this.faker = faker;
+    }
 
     @Override
     protected ContactRequest getDefault() {
