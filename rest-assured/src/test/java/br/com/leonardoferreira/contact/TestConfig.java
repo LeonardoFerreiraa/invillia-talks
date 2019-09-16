@@ -14,10 +14,9 @@ public class TestConfig {
     @Bean
     public Faker faker() {
         long seed = System.currentTimeMillis();
-        Random random = new Random(seed);
-        log.info("seed={}", seed);
+        log.info("Method=faker, seed={}", seed);
 
-        return new Faker(random);
+        return new Faker(new Random(seed));
     }
 
 }

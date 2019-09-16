@@ -1,6 +1,5 @@
 package br.com.leonardoferreira.contact.integration.contact;
 
-import br.com.leonardoferreira.contact.Application;
 import br.com.leonardoferreira.contact.domain.Contact;
 import br.com.leonardoferreira.contact.domain.request.ContactRequest;
 import br.com.leonardoferreira.contact.exception.ResourceNotFoundException;
@@ -11,24 +10,23 @@ import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CreateContactIntegrationTest extends BaseIntegrationTest {
+class CreateContactIntegrationTest {
+
+    private final ContactRequestFactory contactRequestFactory;
+
+    private final ContactRepository contactRepository;
 
     @Autowired
-    private ContactRequestFactory contactRequestFactory;
-
-    @Autowired
-    private ContactRepository contactRepository;
+    CreateContactIntegrationTest(final ContactRequestFactory contactRequestFactory,
+                                 final ContactRepository contactRepository) {
+        this.contactRequestFactory = contactRequestFactory;
+        this.contactRepository = contactRepository;
+    }
 
     @Test
     void withSuccess() {
@@ -54,8 +52,6 @@ public class CreateContactIntegrationTest extends BaseIntegrationTest {
         Assertions.assertAll("Assert contact content",
                 () -> Assertions.assertEquals(request.getName(), contact.getName()),
                 () -> Assertions.assertEquals(request.getEmail(), contact.getEmail()));
-
-
     }
 
     @Test
@@ -71,8 +67,8 @@ public class CreateContactIntegrationTest extends BaseIntegrationTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body("errors.find { it.field == 'email' }.defaultMessage", Matchers.is("must not be blank"))
-                    .body("errors.find { it.field == 'name' }.defaultMessage", Matchers.is("must not be blank"));
+                    .body("email", Matchers.contains("must not be blank"))
+                    .body("name", Matchers.contains("must not be blank"));
         // @formatter:on
     }
 }

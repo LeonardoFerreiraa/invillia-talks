@@ -4,15 +4,13 @@ spring:
     username: ${USER}
     password: 123123
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
     open-in-view: false
     properties:
       hibernate:
+        format_sql: true
         jdbc:
           lob:
             non_contextual_creation: true
         temp:
           use_jdbc_metadata_defaults: false
-    database-platform: org.hibernate.dialect.PostgreSQLDialect

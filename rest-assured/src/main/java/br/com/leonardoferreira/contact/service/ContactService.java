@@ -8,35 +8,42 @@ import br.com.leonardoferreira.contact.mapper.ContactMapper;
 import br.com.leonardoferreira.contact.repository.ContactRepository;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 public class ContactService {
 
-    @Autowired
-    private ContactRepository contactRepository;
+    private final ContactRepository contactRepository;
 
-    @Autowired
-    private ContactMapper contactMapper;
+    private final ContactMapper contactMapper;
 
+    public ContactService(final ContactRepository contactRepository,
+                          final ContactMapper contactMapper) {
+        this.contactRepository = contactRepository;
+        this.contactMapper = contactMapper;
+    }
+
+    @Transactional(readOnly = true)
     public List<ContactResponse> findAll() {
         log.info("Method=findAll");
 
-        List<Contact> contacts = (List<Contact>) contactRepository.findAll();
+        final List<Contact> contacts = contactRepository.findAll();
         return contactMapper.contactToResponse(contacts);
     }
 
-    public ContactResponse findById(Long id) {
+    @Transactional(readOnly = true)
+    public ContactResponse findById(final Long id) {
         log.info("Method=findById, id={}", id);
 
-        Contact contact = contactRepository.findById(id)
+        return contactRepository.findById(id)
+                .map(contactMapper::contactToResponse)
                 .orElseThrow(ResourceNotFoundException::new);
-        return contactMapper.contactToResponse(contact);
     }
 
-    public Long create(ContactRequest contactRequest) {
+    @Transactional
+    public Long create(final ContactRequest contactRequest) {
         log.info("Method=create, contactRequest={}", contactRequest);
 
         Contact contact = contactMapper.contactRequestToContact(contactRequest);
@@ -45,7 +52,8 @@ public class ContactService {
         return contact.getId();
     }
 
-    public void update(Long id, ContactRequest contactRequest) {
+    @Transactional
+    public void update(final Long id, final ContactRequest contactRequest) {
         log.info("Method=update, id={}, contactRequest={}", id, contactRequest);
 
         Contact contact = contactRepository.findById(id)
@@ -55,13 +63,14 @@ public class ContactService {
         contactRepository.save(contact);
     }
 
-    public void delete(Long id) {
+    @Transactional
+    public void delete(final Long id) {
         log.info("Method=delete, id={}", id);
 
         Contact contact = contactRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+
         contactRepository.delete(contact);
     }
-
 
 }

@@ -5,31 +5,34 @@ import br.com.leonardoferreira.contact.domain.request.ContactRequest;
 import br.com.leonardoferreira.contact.exception.ResourceNotFoundException;
 import br.com.leonardoferreira.contact.factory.ContactFactory;
 import br.com.leonardoferreira.contact.factory.ContactRequestFactory;
-import br.com.leonardoferreira.contact.integration.contact.BaseIntegrationTest;
 import br.com.leonardoferreira.contact.repository.ContactRepository;
+import br.com.leonardoferreira.contact.specification.CommonResponseSpecification;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UpdateContactIntegrationTest extends BaseIntegrationTest {
+class UpdateContactIntegrationTest {
+
+    private final ContactFactory contactFactory;
+
+    private final ContactRequestFactory contactRequestFactory;
+
+    private final ContactRepository contactRepository;
 
     @Autowired
-    private ContactFactory contactFactory;
-
-    @Autowired
-    private ContactRequestFactory contactRequestFactory;
-
-    @Autowired
-    private ContactRepository contactRepository;
+    UpdateContactIntegrationTest(final ContactFactory contactFactory,
+                                 final ContactRequestFactory contactRequestFactory,
+                                 final ContactRepository contactRepository) {
+        this.contactFactory = contactFactory;
+        this.contactRequestFactory = contactRequestFactory;
+        this.contactRepository = contactRepository;
+    }
 
     @Test
     void withSuccess() {
@@ -72,8 +75,8 @@ public class UpdateContactIntegrationTest extends BaseIntegrationTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body("errors.find { it.field == 'email' }.defaultMessage", Matchers.is("must not be blank"))
-                    .body("errors.find { it.field == 'name' }.defaultMessage", Matchers.is("must not be blank"));
+                    .body("name", Matchers.contains("must not be blank"))
+                    .body("email", Matchers.contains("must not be blank"));
         // @formatter:on
     }
 
@@ -91,7 +94,7 @@ public class UpdateContactIntegrationTest extends BaseIntegrationTest {
                     .put("/contacts/1")
                 .then()
                     .log().all()
-                    .spec(notFoundSpec());
+                    .spec(CommonResponseSpecification.notFound());
         // @formatter:on
     }
 }

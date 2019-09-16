@@ -6,7 +6,6 @@ import br.com.leonardoferreira.contact.service.ContactService;
 import java.net.URI;
 import java.util.List;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping("/contacts")
 public class ContactController {
 
-    @Autowired
-    private ContactService contactService;
+    private final ContactService contactService;
+
+    public ContactController(final ContactService contactService) {
+        this.contactService = contactService;
+    }
 
     @GetMapping
     public List<ContactResponse> findAll() {
@@ -36,24 +38,25 @@ public class ContactController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody ContactRequest contactRequest) {
+    public ResponseEntity<?> create(@Valid @RequestBody final ContactRequest contactRequest) {
         Long id = contactService.create(contactRequest);
         URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
+                .fromCurrentContextPath()
+                .path("/contacts/{id}")
                 .build(id);
 
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody ContactRequest contactRequest) {
+    public ResponseEntity<?> update(@PathVariable final Long id,
+                                    @Valid @RequestBody final ContactRequest contactRequest) {
         contactService.update(id, contactRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable final Long id) {
         contactService.delete(id);
         return ResponseEntity.noContent().build();
     }

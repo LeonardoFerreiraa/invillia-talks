@@ -32,5 +32,4 @@ public class Contact {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-
 }

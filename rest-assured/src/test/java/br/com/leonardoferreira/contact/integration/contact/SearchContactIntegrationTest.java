@@ -2,26 +2,25 @@ package br.com.leonardoferreira.contact.integration.contact;
 
 import br.com.leonardoferreira.contact.domain.Contact;
 import br.com.leonardoferreira.contact.factory.ContactFactory;
+import br.com.leonardoferreira.contact.specification.CommonResponseSpecification;
 import io.restassured.RestAssured;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Slf4j
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SearchContactIntegrationTest extends BaseIntegrationTest {
+class SearchContactIntegrationTest {
+
+    private final ContactFactory contactFactory;
 
     @Autowired
-    private ContactFactory contactFactory;
+    SearchContactIntegrationTest(final ContactFactory contactFactory) {
+        this.contactFactory = contactFactory;
+    }
 
     @Test
-//    @DisplayName("testa se retorna todos os contatos")
     void findAll() {
         contactFactory.create(5);
 
@@ -66,7 +65,7 @@ public class SearchContactIntegrationTest extends BaseIntegrationTest {
                     .get("/contacts/1")
                 .then()
                     .log().all()
-                    .spec(notFoundSpec());
+                    .spec(CommonResponseSpecification.notFound());
         // @formatter:on
     }
 

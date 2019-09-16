@@ -1,30 +1,16 @@
-package br.com.leonardoferreira.contact.integration.contact;
+package br.com.leonardoferreira.contact.specification;
 
-import br.com.leonardoferreira.contact.CleanDatabase;
-import io.restassured.RestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.LocalServerPort;
 
-public class BaseIntegrationTest {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class CommonResponseSpecification {
 
-    @LocalServerPort
-    private Integer port;
-
-    @Autowired
-    private CleanDatabase cleanDatabase;
-
-    @BeforeEach
-    public void beforeEach() {
-        RestAssured.port = port;
-        cleanDatabase.clean();
-    }
-
-    protected ResponseSpecification notFoundSpec() {
+    public static ResponseSpecification notFound() {
         return new ResponseSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_NOT_FOUND)
                 .expectBody("timestamp", Matchers.not(Matchers.isEmptyString()))

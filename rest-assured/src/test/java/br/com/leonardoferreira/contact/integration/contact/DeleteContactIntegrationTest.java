@@ -2,24 +2,27 @@ package br.com.leonardoferreira.contact.integration.contact;
 
 import br.com.leonardoferreira.contact.factory.ContactFactory;
 import br.com.leonardoferreira.contact.repository.ContactRepository;
+import br.com.leonardoferreira.contact.specification.CommonResponseSpecification;
 import io.restassured.RestAssured;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeleteContactIntegrationTest extends BaseIntegrationTest {
+class DeleteContactIntegrationTest {
+
+    private final ContactFactory contactFactory;
+
+    private final ContactRepository contactRepository;
 
     @Autowired
-    private ContactFactory contactFactory;
-
-    @Autowired
-    private ContactRepository contactRepository;
+    DeleteContactIntegrationTest(final ContactFactory contactFactory,
+                                 final ContactRepository contactRepository) {
+        this.contactFactory = contactFactory;
+        this.contactRepository = contactRepository;
+    }
 
     @Test
     void withSuccess() {
@@ -49,7 +52,7 @@ public class DeleteContactIntegrationTest extends BaseIntegrationTest {
                     .delete("/contacts/1")
                 .then()
                     .log().all()
-                    .spec(notFoundSpec());
+                    .spec(CommonResponseSpecification.notFound());
         // @formatter:on
     }
 }
