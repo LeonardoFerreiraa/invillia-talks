@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: spring-cloud-stream-consumer
+  cloud:
+    stream:
+      default:
+        consumer:
+          use-native-encoding: true
+      bindings:
+        created-user-input:
+          destination: streaming.spring-cloud-stream-demo.user.created
+          group: ${spring.application.name}

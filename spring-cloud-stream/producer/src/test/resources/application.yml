@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: spring-cloud-stream-producer
+  cloud:
+    stream:
+      default:
+        producer:
+          use-native-encoding: true
+      bindings:
+        created-user-output:
+          destination: streaming.spring-cloud-stream-demo.user.created
