@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: spring-cloud-stream-producer
+  cloud:
+    stream:
+      default:
+        producer:
+          use-native-encoding: true
+      bindings:
+        created-user-output:
+          destination: streaming.spring-cloud-stream-demo.user.created
+      kafka:
+        binder:
+          configuration:
+            value:
+              serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            key:
+              serializer: org.apache.kafka.common.serialization.StringSerializer
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      schema:
+        registry:
+          url: http://localhost:8081
+      specific:
+        avro:
+          reader: true
