@@ -45,7 +45,7 @@ public class AuthorDAO {
         transaction.commit();
     }
 
-    public void deleteFromId(final Long id) {
+    public void deleteById(final Long id) {
         final EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();

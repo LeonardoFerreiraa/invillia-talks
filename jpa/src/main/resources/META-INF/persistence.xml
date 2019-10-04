@@ -8,6 +8,9 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/incubaria"/>
             <property name="javax.persistence.jdbc.user" value="s2it_leferreira" />
             <property name="javax.persistence.jdbc.password" value="123123" />
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

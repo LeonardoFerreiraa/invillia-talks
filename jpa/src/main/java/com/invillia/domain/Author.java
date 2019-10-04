@@ -1,12 +1,17 @@
 package com.invillia.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.StringJoiner;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -26,6 +31,9 @@ public class Author {
 
     @Column(name = "bio", nullable = false, columnDefinition = "text")
     private String bio;
+
+    @OneToMany(mappedBy = "author") //, cascade = CascadeType.REMOVE)
+    private List<Book> books;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
@@ -103,5 +111,13 @@ public class Author {
 
     public void setUpdatedAt(final LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(final List<Book> books) {
+        this.books = books;
     }
 }
