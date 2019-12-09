@@ -3,10 +3,10 @@ package com.invillia.integration;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
 import com.invillia.domain.Book;
-import com.invillia.domain.request.BookRequest;
+import com.invillia.domain.request.UpdateBookRequest;
 import com.invillia.exception.ResourceNotFoundException;
 import com.invillia.factory.BookFactory;
-import com.invillia.factory.BookRequestFactory;
+import com.invillia.factory.UpdateBookRequestFactory;
 import com.invillia.repository.BookRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -20,29 +20,29 @@ class UpdateBookIntegrationTest {
 
     private final BookFactory bookFactory;
 
-    private final BookRequestFactory bookRequestFactory;
+    private final UpdateBookRequestFactory createBookRequestFactory;
 
     private final BookRepository bookRepository;
 
     @Autowired
     UpdateBookIntegrationTest(final BookFactory bookFactory,
-                              final BookRequestFactory bookRequestFactory,
+                              final UpdateBookRequestFactory createBookRequestFactory,
                               final BookRepository bookRepository) {
         this.bookFactory = bookFactory;
-        this.bookRequestFactory = bookRequestFactory;
+        this.createBookRequestFactory = createBookRequestFactory;
         this.bookRepository = bookRepository;
     }
 
     @Test
     void updateWithSuccessTest() {
         bookFactory.create();
-        final BookRequest bookRequest = bookRequestFactory.build();
+        final UpdateBookRequest request = createBookRequestFactory.build();
 
         RestAssured
                 .given()
                     .log().all()
                     .contentType(ContentType.JSON)
-                    .body(bookRequest)
+                    .body(request)
                 .when()
                     .put("/books/1")
                 .then()
@@ -53,10 +53,9 @@ class UpdateBookIntegrationTest {
                 .orElseThrow(ResourceNotFoundException::new);
 
         Assertions.assertAll("book assert",
-                () -> Assertions.assertEquals(bookRequest.getTitle(), book.getTitle()),
-                () -> Assertions.assertEquals(bookRequest.getNumberOfPages(), book.getNumberOfPages()),
-                () -> Assertions.assertEquals(bookRequest.getIsbn(), book.getIsbn()),
-                () -> Assertions.assertEquals(bookRequest.getAuthor(), book.getAuthor()));
+                () -> Assertions.assertEquals(request.getTitle(), book.getTitle()),
+                () -> Assertions.assertEquals(request.getNumberOfPages(), book.getNumberOfPages()),
+                () -> Assertions.assertEquals(request.getAuthor(), book.getAuthor()));
     }
 
 }

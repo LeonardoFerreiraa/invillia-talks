@@ -3,7 +3,7 @@ package com.invillia.domain.request;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class BookRequest {
+public class CreateBookRequest {
 
     @NotBlank
     private String title;

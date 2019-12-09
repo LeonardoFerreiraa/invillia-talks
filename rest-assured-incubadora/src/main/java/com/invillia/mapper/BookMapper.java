@@ -1,7 +1,8 @@
 package com.invillia.mapper;
 
 import com.invillia.domain.Book;
-import com.invillia.domain.request.BookRequest;
+import com.invillia.domain.request.CreateBookRequest;
+import com.invillia.domain.request.UpdateBookRequest;
 import com.invillia.domain.response.BookResponse;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,21 +34,20 @@ public class BookMapper {
                 .collect(Collectors.toList());
     }
 
-    public Book bookRequestToBook(final BookRequest bookRequest) {
+    public Book bookRequestToBook(final CreateBookRequest createBookRequest) {
         final Book book = new Book();
 
-        book.setTitle(bookRequest.getTitle());
-        book.setNumberOfPages(bookRequest.getNumberOfPages());
-        book.setIsbn(bookRequest.getIsbn());
-        book.setAuthor(bookRequest.getAuthor());
+        book.setTitle(createBookRequest.getTitle());
+        book.setNumberOfPages(createBookRequest.getNumberOfPages());
+        book.setIsbn(createBookRequest.getIsbn());
+        book.setAuthor(createBookRequest.getAuthor());
 
         return book;
     }
 
-    public void updateBookByBookRequest(final Book book, final BookRequest bookRequest) {
-        book.setTitle(bookRequest.getTitle());
-        book.setNumberOfPages(bookRequest.getNumberOfPages());
-        book.setIsbn(bookRequest.getIsbn());
-        book.setAuthor(bookRequest.getAuthor());
+    public void updateBookByBookRequest(final Book book, final UpdateBookRequest updateBookRequest) {
+        book.setTitle(updateBookRequest.getTitle());
+        book.setNumberOfPages(updateBookRequest.getNumberOfPages());
+        book.setAuthor(updateBookRequest.getAuthor());
     }
 }

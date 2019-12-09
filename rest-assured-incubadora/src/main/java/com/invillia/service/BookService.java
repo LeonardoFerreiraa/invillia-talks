@@ -1,8 +1,10 @@
 package com.invillia.service;
 
 import com.invillia.domain.Book;
-import com.invillia.domain.request.BookRequest;
+import com.invillia.domain.request.CreateBookRequest;
+import com.invillia.domain.request.UpdateBookRequest;
 import com.invillia.domain.response.BookResponse;
+import com.invillia.exception.IsbnAlreadyInUseException;
 import com.invillia.exception.ResourceNotFoundException;
 import com.invillia.mapper.BookMapper;
 import com.invillia.repository.BookRepository;
@@ -37,19 +39,23 @@ public class BookService {
     }
 
     @Transactional
-    public Long create(final BookRequest bookRequest) {
-        Book book = bookMapper.bookRequestToBook(bookRequest);
+    public Long create(final CreateBookRequest createBookRequest) {
+        if (bookRepository.existsByIsbn(createBookRequest.getIsbn())) {
+            throw new IsbnAlreadyInUseException();
+        }
+
+        Book book = bookMapper.bookRequestToBook(createBookRequest);
         bookRepository.save(book);
 
         return book.getId();
     }
 
     @Transactional
-    public void update(final Long id, final BookRequest bookRequest) {
+    public void update(final Long id, final UpdateBookRequest updateBookRequest) {
         final Book book = bookRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
 
-        bookMapper.updateBookByBookRequest(book, bookRequest);
+        bookMapper.updateBookByBookRequest(book, updateBookRequest);
 
         bookRepository.save(book);
     }

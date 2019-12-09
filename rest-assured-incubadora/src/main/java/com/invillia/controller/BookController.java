@@ -1,6 +1,7 @@
 package com.invillia.controller;
 
-import com.invillia.domain.request.BookRequest;
+import com.invillia.domain.request.CreateBookRequest;
+import com.invillia.domain.request.UpdateBookRequest;
 import com.invillia.domain.response.BookResponse;
 import com.invillia.service.BookService;
 import java.net.URI;
@@ -39,8 +40,8 @@ public class BookController {
     }
 
     @PostMapping
-    public HttpEntity<?> create(@Valid @RequestBody final BookRequest bookRequest) {
-        final Long id = bookService.create(bookRequest);
+    public HttpEntity<?> create(@Valid @RequestBody final CreateBookRequest createBookRequest) {
+        final Long id = bookService.create(createBookRequest);
 
         final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/books/{id}")
@@ -51,8 +52,8 @@ public class BookController {
 
     @PutMapping("/{id}")
     public HttpEntity<?> update(@PathVariable final Long id,
-                                @Valid @RequestBody final BookRequest bookRequest) {
-        bookService.update(id, bookRequest);
+                                @Valid @RequestBody final UpdateBookRequest updateBookRequest) {
+        bookService.update(id, updateBookRequest);
 
         return ResponseEntity.noContent().build();
     }
