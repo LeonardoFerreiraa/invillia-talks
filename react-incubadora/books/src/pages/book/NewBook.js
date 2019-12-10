@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import axios from "../../utils/httpClient";
 
 import Field from "../../components/Field"
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class NewBook extends Component {
     state = {
@@ -84,7 +84,7 @@ class NewBook extends Component {
                            onChange={this.handleChange}/>
 
                     <div className="float-right btn-group">
-                        <NavLink to="/" className="btn btn-primary">Voltar</NavLink>
+                        <Link to="/" className="btn btn-primary">Voltar</Link>
                         <button type="submit" className="btn btn-success">Salvar</button>
                     </div>
                 </form>

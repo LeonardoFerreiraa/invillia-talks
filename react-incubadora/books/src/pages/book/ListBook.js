@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import axios from "../../utils/httpClient"
 
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class ListBook extends Component {
     state = {
@@ -57,16 +57,16 @@ class ListBook extends Component {
                         <button className="btn btn-sm btn-danger" onClick={() => this.handleRemove(book.id)}>
                             Remover
                         </button>&nbsp;
-                        <NavLink to={`/books/edit/${book.id}`} className="btn btn-sm btn-primary">
+                        <Link to={`/books/edit/${book.id}`} className="btn btn-sm btn-primary">
                             Alterar
-                        </NavLink>
+                        </Link>
                     </td>
                 </tr>)}
                 </tbody>
             </table>
 
             <div className="float-right">
-                <NavLink to="/books/new" className="btn btn-primary">Novo livro</NavLink>
+                <Link to="/books/new" className="btn btn-primary">Novo livro</Link>
             </div>
         </div>;
     }
